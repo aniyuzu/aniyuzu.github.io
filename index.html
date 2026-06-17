@@ -1,51 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>AniYuzu - The Ultimate Anime Watch Online!</title>
   <link rel="icon" href="/icon.png">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <div class="logo-section">
-      <img src="/logo.png" alt="AniYuzu Logo" class="logo">
-      <h1>AniYuzu</h1>
+  <!-- Top navigation -->
+  <header class="topbar">
+    <div class="left-group">
+      <button id="hamburger" class="hamburger" aria-label="Otwórz menu" aria-expanded="false">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="22" height="2" rx="1" fill="currentColor"/>
+          <rect y="7" width="22" height="2" rx="1" fill="currentColor"/>
+          <rect y="14" width="22" height="2" rx="1" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <img src="/logo.png" alt="AniYuzu logo" class="brand-logo">
+      <a class="brand" href="/">
+        <span class="brand-name">AniYuzu</span>
+      </a>
     </div>
-    <div class="menu-icons">
-      <input type="text" id="search" placeholder="Search titles...">
-      <button id="search-btn">🔍</button>
-      <button id="hamburger">☰</button>
+
+    <div class="center-group">
+      <div class="search">
+        <input id="search-input" type="search" placeholder="Search titles..." aria-label="Szukaj tytułów">
+        <button id="search-btn" class="search-btn" aria-label="Szukaj">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="right-group">
+      <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-label="Zmień motyw">🌓</button>
+      <div id="user-area" class="user-area">Zaloguj</div>
     </div>
   </header>
 
-  <nav id="side-menu" class="hidden">
-    <ul>
-      <li>New & Upcoming</li>
-      <li>Categories</li>
-      <li>Support</li>
-      <li>History</li>
-      <li>Account</li>
-      <li id="username">Username</li>
+  <!-- Side menu / overlay -->
+  <div id="overlay" class="overlay hidden" tabindex="-1"></div>
+  <nav id="side-menu" class="side-menu hidden" aria-hidden="true">
+    <div class="menu-header">
+      <img src="/logo.png" alt="" class="menu-logo">
+      <div class="menu-title">AniYuzu</div>
+    </div>
+    <ul class="menu-list">
+      <li class="menu-item"><a href="/new">New &amp; Upcoming</a></li>
+      <li class="menu-item"><a href="/categories">Categories</a></li>
+      <li class="menu-item"><a href="/support">Support</a></li>
+      <li class="menu-item"><a href="/history">History</a></li>
+      <li class="menu-item"><a href="/account">Account</a></li>
+      <li class="menu-item username" id="menu-username">Username</li>
     </ul>
   </nav>
 
-  <main>
-    <h2>Popular Anime</h2>
-    <div id="anime-list">
-      <!-- Example anime card -->
-      <div class="anime-card">
-        <img src="/load_icon.gif" data-src="https://example.com/anime1.jpg" alt="Anime Poster">
-        <h3><a href="/title/Naruto/">Naruto</a></h3>
-      </div>
-      <div class="anime-card">
-        <img src="/load_icon.gif" data-src="https://example.com/anime2.jpg" alt="Anime Poster">
-        <h3><a href="/title/OnePiece/">One Piece</a></h3>
-      </div>
-    </div>
+  <!-- Main content -->
+  <main class="container">
+    <section class="hero">
+      <h2 class="hero-title">Popular Anime</h2>
+      <p class="hero-sub">Najchętniej oglądane tytuły — kliknij, aby zobaczyć szczegóły</p>
+    </section>
+
+    <section id="anime-grid" class="grid">
+      <!-- Karty będą wypełnione dynamicznie przez script.js -->
+      <!-- Przykładowa karta (jeśli brak danych) -->
+      <article class="card placeholder">
+        <div class="poster">
+          <img src="/load_icon.gif" data-src="" alt="Ładowanie" class="lazy">
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Ładowanie...</h3>
+        </div>
+      </article>
+    </section>
   </main>
 
-  <script src="script.js"></script>
+  <footer class="footer">
+    <small>© <strong>AniYuzu</strong> — Watch anime online</small>
+  </footer>
+
+  <script src="script.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </body>
 </html>
