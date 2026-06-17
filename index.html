@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AniYuzu - The Ultimate Anime Watch Online!</title>
+  <link rel="icon" href="/icon.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo-section">
+      <img src="/logo.png" alt="AniYuzu Logo" class="logo">
+      <h1>AniYuzu</h1>
+    </div>
+    <div class="menu-icons">
+      <input type="text" id="search" placeholder="Search titles...">
+      <button id="search-btn">🔍</button>
+      <button id="hamburger">☰</button>
+    </div>
+  </header>
+
+  <nav id="side-menu" class="hidden">
+    <ul>
+      <li>New & Upcoming</li>
+      <li>Categories</li>
+      <li>Support</li>
+      <li>History</li>
+      <li>Account</li>
+      <li id="username">Username</li>
+    </ul>
+  </nav>
+
+  <main>
+    <h2>Popular Anime</h2>
+    <div id="anime-list">
+      <!-- Example anime card -->
+      <div class="anime-card">
+        <img src="/load_icon.gif" data-src="https://example.com/anime1.jpg" alt="Anime Poster">
+        <h3><a href="/title/Naruto/">Naruto</a></h3>
+      </div>
+      <div class="anime-card">
+        <img src="/load_icon.gif" data-src="https://example.com/anime2.jpg" alt="Anime Poster">
+        <h3><a href="/title/OnePiece/">One Piece</a></h3>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
