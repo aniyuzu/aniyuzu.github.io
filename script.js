@@ -73,8 +73,8 @@ function lazyLoadImages(root = document) {
 }
 
 // Supabase init (replace with your values)
-const SUPABASE_URL = 'https://your-project.supabase.co';
-const SUPABASE_ANON = 'public-anon-key';
+const SUPABASE_URL = 'https://lewcitocobalwcifngko.supabase.co/rest/v1/';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxld2NpdG9jb2JhbHdjaWZuZ2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTE4OTksImV4cCI6MjA5NjkyNzg5OX0.__F6EKH6uPRTM7z0t7RvxPe1YLGFbmJWwA1KnUXiBR8';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 // Fetch popular anime from Supabase table "anime" (example schema: id, title, poster_url, popularity)
