@@ -190,12 +190,12 @@
       "year": 2016,
       "ageRating": "TV-MA",
       "score": 8.7,
-      "description": "",
+      "description": "jjj",
       "seasons": 1,
-      "status": "",
-      "genres": [""],
+      "status": "Ongoing",
+      "genres": ["psychological"],
       "episodeCount": 12,
-      "posterUrl": "",
+      "posterUrl": "https://",
       "episodes": [
         {
           "number": 1,
