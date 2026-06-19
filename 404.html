@@ -1,16 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>404 Not Found - AniYuzu</title>
-  <link rel="icon" href="/icon.png">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="404 — This page could not be found on AniYuzu.">
+    <title>404 Not Found | AniYuzu</title>
+    <link rel="icon" type="image/png" href="/icon.png">
+
+    <!-- Same fonts as index.html -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+
+    <!-- Shared design system -->
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        /* ─────────────────────────────────────────────
+           Stars — pure CSS twinkling particles
+           Generated in JS, styled here.
+        ───────────────────────────────────────────── */
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            animation: starTwinkle var(--d, 3s) ease-in-out var(--dl, 0s) infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes starTwinkle {
+            from { opacity: var(--lo, 0.05); transform: scale(1);   }
+            to   { opacity: var(--hi, 0.40); transform: scale(0.65); }
+        }
+
+        /* ─────────────────────────────────────────────
+           404 number — float + colour pulse
+        ───────────────────────────────────────────── */
+        .error-code {
+            animation: floatUp 5.5s ease-in-out infinite, pulsate 3s ease-in-out infinite;
+        }
+
+        @keyframes floatUp {
+            0%,  100% { transform: translateY(0);    }
+            50%        { transform: translateY(-20px); }
+        }
+
+        /* ─────────────────────────────────────────────
+           Offset content below the fixed navbar
+        ───────────────────────────────────────────── */
+        .error-page {
+            padding-top: calc(var(--nav-h) + 32px);
+        }
+
+        /* Stars container */
+        .stars-wrap {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-  <div style="text-align:center; padding:50px;">
-    <h1>404 - Page Not Found</h1>
-    <p>Oops! The page you are looking for does not exist.</p>
-    <a href="/">Return to Home</a>
-  </div>
+
+<!-- ════════════════════════ NAVBAR ════════════════════════ -->
+<header class="navbar" id="navbar">
+    <div class="navbar__inner">
+
+        <a href="/" class="brand" aria-label="AniYuzu — Home">
+            <img src="/logo.png" alt="" class="brand__logo" onerror="this.style.display='none'">
+            <span class="brand__name">AniYuzu</span>
+        </a>
+
+        <!-- No search on the 404 page — just navigation -->
+        <div class="navbar__controls">
+            <button
+                class="icon-btn"
+                id="menuBtn"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="sidemenu"
+            >
+                <span class="material-symbols-rounded" id="menuIcon">menu</span>
+            </button>
+        </div>
+
+    </div>
+</header>
+
+<!-- ════════════════════════ SIDE MENU ════════════════════════ -->
+<div class="backdrop" id="backdrop"></div>
+
+<nav class="sidemenu" id="sidemenu" aria-hidden="true" aria-label="Site navigation">
+    <div class="sidemenu__header">
+        <span class="sidemenu__brand">Navigation</span>
+        <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+            <span class="material-symbols-rounded">close</span>
+        </button>
+    </div>
+
+    <ul class="sidemenu__list">
+        <li>
+            <a href="/new" class="sidemenu__link">
+                <span class="material-symbols-rounded">fiber_new</span>
+                New &amp; Upcoming
+            </a>
+        </li>
+        <li>
+            <a href="/categories" class="sidemenu__link">
+                <span class="material-symbols-rounded">category</span>
+                Categories
+            </a>
+        </li>
+        <li>
+            <a href="/support" class="sidemenu__link">
+                <span class="material-symbols-rounded">help_outline</span>
+                Support
+            </a>
+        </li>
+        <li>
+            <a href="/history" class="sidemenu__link">
+                <span class="material-symbols-rounded">history</span>
+                History
+            </a>
+        </li>
+        <li>
+            <a href="/account" class="sidemenu__link">
+                <span class="material-symbols-rounded">person</span>
+                Account
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidemenu__footer">
+        <a href="/account" class="auth-btn">Login / Register</a>
+    </div>
+</nav>
+
+<!-- ════════════════════════ 404 CONTENT ════════════════════════ -->
+<div class="error-page">
+
+    <!-- Animated background (reuses hero orb styles) -->
+    <div class="hero__bg" aria-hidden="true">
+        <div class="hero__orb hero__orb--a"></div>
+        <div class="hero__orb hero__orb--b"></div>
+        <div class="hero__orb hero__orb--c"></div>
+    </div>
+
+    <!-- CSS star particles — populated by the inline script below -->
+    <div class="stars-wrap" id="starsWrap" aria-hidden="true"></div>
+
+    <div class="error-page__content">
+
+        <!-- Big gradient 404 -->
+        <span class="error-code" role="img" aria-label="Error 404">404</span>
+
+        <!-- Pill badge -->
+        <span class="error-page__badge">Page Not Found</span>
+
+        <!-- Title -->
+        <h1 class="error-page__title">
+            Lost in another dimension.
+        </h1>
+
+        <!-- Description -->
+        <p class="error-page__desc">
+            This page wandered off somewhere between episodes.<br>
+            Don't worry — your next binge is just one click away.
+        </p>
+
+        <!-- Action buttons -->
+        <div class="error-page__actions">
+            <a href="/" class="btn btn--primary">
+                <span class="material-symbols-rounded">home</span>
+                Back to Home
+            </a>
+            <a href="/categories" class="btn btn--ghost">
+                <span class="material-symbols-rounded">grid_view</span>
+                Browse Titles
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- ════════════════════════ INLINE SCRIPT ════════════════════════
+     Minimal JS — only what's needed for the 404 page:
+       • Navbar scroll shadow
+       • Side menu open / close
+       • CSS star particle generator
+================================================================ -->
+<script>
+(function () {
+    'use strict';
+
+    /* ── DOM refs ── */
+    var navbar   = document.getElementById('navbar');
+    var menuBtn  = document.getElementById('menuBtn');
+    var menuIcon = document.getElementById('menuIcon');
+    var closeBtn = document.getElementById('closeBtn');
+    var sidemenu = document.getElementById('sidemenu');
+    var backdrop = document.getElementById('backdrop');
+
+    /* ── Navbar scroll shadow ── */
+    window.addEventListener('scroll', function () {
+        navbar && navbar.classList.toggle('scrolled', window.scrollY > 8);
+    }, { passive: true });
+
+    /* ── Menu helpers ── */
+    function openMenu() {
+        sidemenu && sidemenu.classList.add('open');
+        sidemenu && sidemenu.setAttribute('aria-hidden', 'false');
+        backdrop && backdrop.classList.add('active');
+        menuBtn  && menuBtn.setAttribute('aria-expanded', 'true');
+        if (menuIcon) menuIcon.textContent = 'close';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        sidemenu && sidemenu.classList.remove('open');
+        sidemenu && sidemenu.setAttribute('aria-hidden', 'true');
+        backdrop && backdrop.classList.remove('active');
+        menuBtn  && menuBtn.setAttribute('aria-expanded', 'false');
+        if (menuIcon) menuIcon.textContent = 'menu';
+        document.body.style.overflow = '';
+    }
+
+    if (menuBtn)  menuBtn.addEventListener('click', openMenu);
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+    if (backdrop) backdrop.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+    });
+
+    /* ── Star particle generator ── */
+    var wrap  = document.getElementById('starsWrap');
+    var count = 65;
+
+    if (wrap) {
+        var frag = document.createDocumentFragment();
+        for (var i = 0; i < count; i++) {
+            var s    = document.createElement('span');
+            s.className = 'star';
+            var size = (Math.random() * 2.2 + 0.4).toFixed(1);
+            var lo   = (Math.random() * 0.06 + 0.02).toFixed(2);
+            var hi   = (Math.random() * 0.42 + 0.06).toFixed(2);
+            s.style.cssText = [
+                'width:'  + size + 'px',
+                'height:' + size + 'px',
+                'left:'   + (Math.random() * 100).toFixed(2) + '%',
+                'top:'    + (Math.random() * 100).toFixed(2) + '%',
+                '--d:'    + (Math.random() * 3 + 2).toFixed(1) + 's',
+                '--dl:'   + (Math.random() * 4).toFixed(2) + 's',
+                '--lo:'   + lo,
+                '--hi:'   + hi
+            ].join(';');
+            frag.appendChild(s);
+        }
+        wrap.appendChild(frag);
+    }
+}());
+</script>
+
 </body>
 </html>
