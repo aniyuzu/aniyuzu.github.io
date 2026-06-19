@@ -185,6 +185,29 @@
     },
     {
       "id": 4,
+      "title": "Magical Girl Raising Project",
+      "slug": "magical-girl-raising-project",
+      "year": 2016,
+      "ageRating": "TV-MA",
+      "score": 8.7,
+      "description": "",
+      "seasons": 1,
+      "status": "",
+      "genres": [""],
+      "episodeCount": 12,
+      "posterUrl": "",
+      "episodes": [
+        {
+          "number": 1,
+          "title": "Welcome to a World of Dreams and Magic!",
+          "sources": {
+            "server1": "https://ebd.cda.pl/900x552/2889250de?autostart=1",
+            "server2": "https://www.youtube.com/embed/Ee2jaUPH7s4",
+            "server3": "https://www.youtube.com/embed/ZvveQLX3E-A"
+          }
+        },
+    {
+      "id": 5,
       "title": "Jujutsu Kaisen",
       "slug": "jujutsu-kaisen",
       "year": 2020,
