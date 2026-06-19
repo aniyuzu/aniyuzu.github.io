@@ -204,6 +204,14 @@
             "server1": "https://ebd.cda.pl/900x552/2889250de?autostart=1",
             "server2": "https://www.youtube.com/embed/Ee2jaUPH7s4",
             "server3": "https://www.youtube.com/embed/ZvveQLX3E-A"
+          },
+          {
+          "number": 2,
+          "title": "Collect Magical Candies!",
+          "sources": {
+            "server1": "https://ebd.cda.pl/620x395/2889265af",
+            "server2": "https://www.youtube.com/embed/y3qoBEzuS38",
+            "server3": "https://www.youtube.com/embed/Cj_e2jP03sc"
           }
         }
       ]
