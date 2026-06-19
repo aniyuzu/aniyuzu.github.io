@@ -214,7 +214,97 @@
             "server2": "https://www.youtube.com/embed/y3qoBEzuS38",
             "server3": "https://www.youtube.com/embed/Cj_e2jP03sc"
           }
-        }
+        },
+        {
+      "number": 3,
+      "title": "Update Notice!",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889271ab",
+        "server2": "https://www.youtube.com/embed/AbcDefG1234",
+        "server3": "https://www.youtube.com/embed/HijKlmN5678"
+      }
+    },
+    {
+      "number": 4,
+      "title": "Add More Friends!",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889282cd",
+        "server2": "https://www.youtube.com/embed/OpqRstU9012",
+        "server3": "https://www.youtube.com/embed/VwxYzaB3456"
+      }
+    },
+    {
+      "number": 5,
+      "title": "New Character!",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889293ef",
+        "server2": "https://www.youtube.com/embed/CdeFghI7890",
+        "server3": "https://www.youtube.com/embed/JklMnoP2345"
+      }
+    },
+    {
+      "number": 6,
+      "title": "Get the Super-Rare Items!",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889304gh",
+        "server2": "https://www.youtube.com/embed/QrsTuvW6789",
+        "server3": "https://www.youtube.com/embed/XyzAbcD0123"
+      }
+    },
+    {
+      "number": 7,
+      "title": "Up Your Friendship!",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889315ij",
+        "server2": "https://www.youtube.com/embed/EfgHijK4567",
+        "server3": "https://www.youtube.com/embed/LmnOpqR8901"
+      }
+    },
+    {
+      "number": 8,
+      "title": "Sudden Event in Session!",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889326kl",
+        "server2": "https://www.youtube.com/embed/StuVwxY2345",
+        "server3": "https://www.youtube.com/embed/ZabCdeF6789"
+      }
+    },
+    {
+      "number": 9,
+      "title": "Notice of New Rules",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889337mn",
+        "server2": "https://www.youtube.com/embed/GhiJklM0123",
+        "server3": "https://www.youtube.com/embed/NopQrsT4567"
+      }
+    },
+    {
+      "number": 10,
+      "title": "Super-Hot! Back-to-Back Battle Events!",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889348op",
+        "server2": "https://www.youtube.com/embed/UvwXyzA8901",
+        "server3": "https://www.youtube.com/embed/BcdEfgH2345"
+      }
+    },
+    {
+      "number": 11,
+      "title": "Server Down for Maintenance",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889359qr",
+        "server2": "https://www.youtube.com/embed/IjkLmnO5678",
+        "server3": "https://www.youtube.com/embed/PqrStuV9012"
+      }
+    },
+    {
+      "number": 12,
+      "title": "File Not Found",
+      "sources": {
+        "server1": "https://ebd.cda.pl/900x552/2889360st",
+        "server2": "https://www.youtube.com/embed/WxyZabC3456",
+        "server3": "https://www.youtube.com/embed/DefGhiJ7890"
+      }
+    }
       ]
     },
     {
