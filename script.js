@@ -1,188 +1,365 @@
-// script.js (ES module)
-const HAMBURGER = document.getElementById('hamburger');
-const SIDE_MENU = document.getElementById('side-menu');
-const OVERLAY = document.getElementById('overlay');
-const SEARCH_INPUT = document.getElementById('search-input');
-const SEARCH_BTN = document.getElementById('search-btn');
-const ANIME_GRID = document.getElementById('anime-grid');
-const MENU_USERNAME = document.getElementById('menu-username');
-const USER_AREA = document.getElementById('user-area');
+/* ================================================================
+   AniYuzu — script.js
+   Sections:
+     1. Supabase config & init
+     2. DOM references
+     3. Navbar scroll shadow
+     4. Side menu (open / close)
+     5. Mobile search toggle
+     6. Search redirect  →  /search?title=
+     7. Auth (session → UI update)
+     8. Jikan API helpers
+     9. Card builder
+    10. Grid renderer
+    11. Helpers
+    12. Bootstrap
+================================================================ */
 
-let menuOpen = false;
+'use strict';
 
+/* ════════════════════════════════════════════════════════════════
+   1. SUPABASE CONFIGURATION
+   ① Create a project at https://supabase.com
+   ② Go to:  Project Settings → API
+   ③ Paste your Project URL and anon/public key below.
+   ─────────────────────────────────────────────────────────────── */
+const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+/* ─── Init Supabase client (skipped if not configured) ──────── */
+let sb = null;
+
+(function initSupabase() {
+    if (
+        typeof window.supabase === 'undefined' ||
+        SUPABASE_URL      === 'YOUR_SUPABASE_URL' ||
+        SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY'
+    ) {
+        console.info('[AniYuzu] Supabase not configured — auth disabled.');
+        return;
+    }
+    try {
+        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (err) {
+        console.warn('[AniYuzu] Supabase init failed:', err);
+    }
+}());
+
+
+/* ════════════════════════════════════════════════════════════════
+   2. DOM REFERENCES
+================================================================ */
+const g = (id) => document.getElementById(id);
+
+const navbar            = g('navbar');
+const menuBtn           = g('menuBtn');
+const menuIcon          = g('menuIcon');
+const closeBtn          = g('closeBtn');
+const sidemenu          = g('sidemenu');
+const backdrop          = g('backdrop');
+const searchForm        = g('searchForm');
+const searchInput       = g('searchInput');
+const mobileSearchBtn   = g('mobileSearchBtn');
+const mobileSearch      = g('mobileSearch');
+const mobileSearchForm  = g('mobileSearchForm');
+const mobileSearchInput = g('mobileSearchInput');
+const accountLink       = g('accountLink');
+const accountLabel      = g('accountLabel');
+const accountIcon       = g('accountIcon');
+const authBtn           = g('authBtn');
+const popularGrid       = g('popularGrid');
+const classicsGrid      = g('classicsGrid');
+
+
+/* ════════════════════════════════════════════════════════════════
+   3. NAVBAR — scroll shadow
+================================================================ */
+window.addEventListener('scroll', () => {
+    navbar?.classList.toggle('scrolled', window.scrollY > 8);
+}, { passive: true });
+
+
+/* ════════════════════════════════════════════════════════════════
+   4. SIDE MENU
+================================================================ */
 function openMenu() {
-  SIDE_MENU.classList.remove('hidden');
-  OVERLAY.classList.remove('hidden');
-  HAMBURGER.setAttribute('aria-expanded','true');
-  menuOpen = true;
+    sidemenu?.classList.add('open');
+    sidemenu?.setAttribute('aria-hidden', 'false');
+    backdrop?.classList.add('active');
+    menuBtn?.setAttribute('aria-expanded', 'true');
+    if (menuIcon) menuIcon.textContent = 'close';
+    document.body.style.overflow = 'hidden';
 }
+
 function closeMenu() {
-  SIDE_MENU.classList.add('hidden');
-  OVERLAY.classList.add('hidden');
-  HAMBURGER.setAttribute('aria-expanded','false');
-  menuOpen = false;
+    sidemenu?.classList.remove('open');
+    sidemenu?.setAttribute('aria-hidden', 'true');
+    backdrop?.classList.remove('active');
+    menuBtn?.setAttribute('aria-expanded', 'false');
+    if (menuIcon) menuIcon.textContent = 'menu';
+    document.body.style.overflow = '';
 }
 
-HAMBURGER.addEventListener('click', () => {
-  menuOpen ? closeMenu() : openMenu();
-});
-OVERLAY.addEventListener('click', closeMenu);
+menuBtn?.addEventListener('click', openMenu);
+closeBtn?.addEventListener('click', closeMenu);
+backdrop?.addEventListener('click', closeMenu);
+
+/* Close on Escape key */
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && menuOpen) closeMenu();
+    if (e.key !== 'Escape') return;
+    closeMenu();
+    closeMobileSearch();
 });
 
-// Search redirect
-SEARCH_BTN.addEventListener('click', () => {
-  const q = SEARCH_INPUT.value.trim();
-  if (q) window.location.href = `/search?title=${encodeURIComponent(q)}`;
-});
-SEARCH_INPUT.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') SEARCH_BTN.click();
-});
 
-// Lazy load images with placeholder /load_icon.gif
-function lazyLoadImages(root = document) {
-  const imgs = root.querySelectorAll('img.lazy[data-src]');
-  const onLoad = (img) => {
-    const src = img.dataset.src;
-    if (!src) return;
-    const tmp = new Image();
-    tmp.src = src;
-    tmp.onload = () => {
-      img.src = src;
-      img.classList.remove('lazy');
-    };
-    tmp.onerror = () => {
-      // keep placeholder if failed
-    };
-  };
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          onLoad(e.target);
-          obs.unobserve(e.target);
-        }
-      });
-    }, {rootMargin: '200px'});
-    imgs.forEach(i => io.observe(i));
-  } else {
-    imgs.forEach(onLoad);
-  }
+/* ════════════════════════════════════════════════════════════════
+   5. MOBILE SEARCH TOGGLE
+================================================================ */
+function openMobileSearch() {
+    mobileSearch?.classList.add('open');
+    mobileSearch?.setAttribute('aria-hidden', 'false');
+    /* Small delay so the expand animation plays before focus */
+    setTimeout(() => mobileSearchInput?.focus(), 60);
 }
 
-// Supabase init (replace with your values)
-const SUPABASE_URL = 'https://lewcitocobalwcifngko.supabase.co/rest/v1/';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxld2NpdG9jb2JhbHdjaWZuZ2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTE4OTksImV4cCI6MjA5NjkyNzg5OX0.__F6EKH6uPRTM7z0t7RvxPe1YLGFbmJWwA1KnUXiBR8';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+function closeMobileSearch() {
+    mobileSearch?.classList.remove('open');
+    mobileSearch?.setAttribute('aria-hidden', 'true');
+}
 
-// Fetch popular anime from Supabase table "anime" (example schema: id, title, poster_url, popularity)
-async function loadPopularAnime() {
-  try {
-    // Attempt to fetch from Supabase
-    const { data, error } = await supabase
-      .from('anime')
-      .select('id,title,poster_url,slug')
-      .order('popularity', { ascending: false })
-      .limit(24);
+mobileSearchBtn?.addEventListener('click', () => {
+    const isOpen = mobileSearch?.classList.contains('open');
+    isOpen ? closeMobileSearch() : openMobileSearch();
+});
 
-    if (error) throw error;
 
-    if (!data || data.length === 0) {
-      renderFallback();
-      return;
+/* ════════════════════════════════════════════════════════════════
+   6. SEARCH — redirect to /search?title=
+================================================================ */
+function doSearch(input) {
+    const q = input?.value.trim();
+    if (!q) {
+        /* Subtle shake + focus when query is empty */
+        input?.classList.add('shake');
+        input?.focus();
+        setTimeout(() => input?.classList.remove('shake'), 480);
+        return;
     }
-
-    renderAnimeCards(data);
-  } catch (err) {
-    console.warn('Supabase fetch failed, using fallback data', err);
-    renderFallback();
-  } finally {
-    lazyLoadImages();
-  }
+    window.location.href = `/search?title=${encodeURIComponent(q)}`;
 }
 
-// Render functions
-function renderAnimeCards(items) {
-  ANIME_GRID.innerHTML = '';
-  items.forEach(item => {
-    const slug = item.slug || encodeURIComponent(item.title.replace(/\s+/g,'-'));
-    const poster = item.poster_url || '';
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.innerHTML = `
-      <a href="/title/${encodeURIComponent(slug)}/" class="card-link" aria-label="${escapeHtml(item.title)}">
-        <div class="poster">
-          <img src="/load_icon.gif" data-src="${escapeAttr(poster)}" alt="${escapeHtml(item.title)} poster" class="lazy">
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">${escapeHtml(item.title)}</h3>
-        </div>
-      </a>
-    `;
-    ANIME_GRID.appendChild(card);
-  });
-}
+searchForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    doSearch(searchInput);
+});
 
-function renderFallback() {
-  const sample = [
-    { title: 'Naruto', poster: 'https://i.imgur.com/placeholder1.jpg', slug: 'Naruto' },
-    { title: 'One Piece', poster: 'https://i.imgur.com/placeholder2.jpg', slug: 'OnePiece' },
-    { title: 'Attack on Titan', poster: 'https://i.imgur.com/placeholder3.jpg', slug: 'AOT' },
-    { title: 'My Hero Academia', poster: 'https://i.imgur.com/placeholder4.jpg', slug: 'MHA' }
-  ];
-  ANIME_GRID.innerHTML = '';
-  sample.forEach(it => {
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.innerHTML = `
-      <a href="/title/${encodeURIComponent(it.slug)}/" class="card-link" aria-label="${escapeHtml(it.title)}">
-        <div class="poster">
-          <img src="/load_icon.gif" data-src="${escapeAttr(it.poster)}" alt="${escapeHtml(it.title)} poster" class="lazy">
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">${escapeHtml(it.title)}</h3>
-        </div>
-      </a>
-    `;
-    ANIME_GRID.appendChild(card);
-  });
-}
+mobileSearchForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    doSearch(mobileSearchInput);
+});
 
-// Simple escaping helpers
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function escapeAttr(s){ return s ? s.replace(/"/g,'&quot;') : ''; }
 
-// Get user info from Supabase auth and show email or "Zaloguj"
-async function showUser() {
-  try {
-    const { data, error } = await supabase.auth.getUser();
-    if (error) throw error;
-    const user = data?.user;
+/* ════════════════════════════════════════════════════════════════
+   7. AUTH — Supabase session → UI update
+================================================================ */
+
+/* Update the sidemenu account link & auth button */
+function applyUserUI(user) {
     if (user) {
-      const name = user.email || user.user_metadata?.full_name || 'User';
-      MENU_USERNAME.textContent = name;
-      USER_AREA.textContent = name;
+        const displayName =
+            user.user_metadata?.username  ||
+            user.user_metadata?.full_name ||
+            user.email?.split('@')[0]     ||
+            'My Account';
+
+        if (accountLabel) accountLabel.textContent = displayName;
+        if (accountIcon)  accountIcon.textContent  = 'account_circle';
+        if (accountLink)  accountLink.href         = '/profile';
+
+        if (authBtn) {
+            authBtn.textContent = 'Log Out';
+            authBtn.classList.add('logged-in');
+        }
     } else {
-      MENU_USERNAME.textContent = 'Username';
-      USER_AREA.textContent = 'Zaloguj';
+        if (accountLabel) accountLabel.textContent = 'Account';
+        if (accountIcon)  accountIcon.textContent  = 'person';
+        if (accountLink)  accountLink.href         = '/account';
+
+        if (authBtn) {
+            authBtn.textContent = 'Login / Register';
+            authBtn.classList.remove('logged-in');
+        }
     }
-  } catch (e) {
-    MENU_USERNAME.textContent = 'Username';
-    USER_AREA.textContent = 'Zaloguj';
-  }
 }
 
-// Theme toggle (simple)
-const THEME_TOGGLE = document.getElementById('theme-toggle');
-THEME_TOGGLE.addEventListener('click', () => {
-  document.documentElement.classList.toggle('light');
-});
+async function initAuth() {
+    if (!sb) return;
 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  loadPopularAnime();
-  showUser();
-  lazyLoadImages();
-});
+    /* Hydrate from stored session */
+    const { data: { session } } = await sb.auth.getSession();
+    applyUserUI(session?.user ?? null);
+
+    /* Keep UI in sync on tab changes, token refresh, sign-out, etc. */
+    sb.auth.onAuthStateChange((_event, newSession) => {
+        applyUserUI(newSession?.user ?? null);
+    });
+
+    /* Auth button click: log out if signed in, navigate to /account if not */
+    authBtn?.addEventListener('click', async () => {
+        const { data: { session: current } } = await sb.auth.getSession();
+        if (current) {
+            await sb.auth.signOut();
+            closeMenu();
+        } else {
+            window.location.href = '/account';
+        }
+    });
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   8. JIKAN REST API  (https://api.jikan.moe — free, no key)
+================================================================ */
+const JIKAN = 'https://api.jikan.moe/v4';
+
+async function fetchAnime(path) {
+    try {
+        const res = await fetch(`${JIKAN}${path}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        return Array.isArray(json.data) ? json.data : [];
+    } catch (err) {
+        console.warn('[AniYuzu] Fetch error:', err.message);
+        return [];
+    }
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   9. CARD BUILDER
+================================================================ */
+
+/* Returns badge markup based on the anime's rank */
+function badgeMarkup(rank) {
+    if (!rank) return '';
+    if (rank === 1) return '<span class="card__badge card__badge--top">Top #1</span>';
+    if (rank <= 3)  return `<span class="card__badge card__badge--top">Top #${rank}</span>`;
+    if (rank <= 10) return `<span class="card__badge card__badge--new">#${rank}</span>`;
+    return '';
+}
+
+function buildCard(anime, index = 0) {
+    const title  = anime.title || 'Unknown';
+    const slug   = encodeURIComponent(anime.title_english || title);
+    const imgSrc = anime.images?.jpg?.large_image_url || '';
+    const score  = typeof anime.score === 'number' ? anime.score.toFixed(1) : null;
+    const eps    = anime.episodes || null;
+    const genre  = anime.genres?.[0]?.name || '';
+    const year   = anime.year || anime.aired?.prop?.from?.year || '';
+
+    /* Build card element */
+    const card = document.createElement('div');
+    card.className = 'card';
+    /* Stagger entrance animation */
+    card.style.animationDelay = `${index * 0.055}s`;
+
+    card.innerHTML = `
+      <div class="card__poster">
+        <img
+          class="card__img loading"
+          src="/load_icon.gif"
+          alt="${escHtml(title)}"
+          loading="lazy"
+        />
+        ${badgeMarkup(anime.rank ?? null)}
+        <div class="card__overlay">
+          ${score ? `<span class="card__score">⭐ ${score}</span>` : '<span></span>'}
+          ${eps   ? `<span class="card__eps">${eps} eps</span>`    : ''}
+        </div>
+      </div>
+      <div class="card__body">
+        <a href="/title/${slug}/" class="card__title">${escHtml(title)}</a>
+        <div class="card__meta">
+          ${genre ? `<span class="card__genre">${escHtml(genre)}</span>` : ''}
+          ${year  ? `<span class="card__year">${year}</span>`            : ''}
+        </div>
+      </div>
+    `;
+
+    /* Lazy-load: swap placeholder gif → real poster once preloaded */
+    if (imgSrc) {
+        const imgEl   = card.querySelector('.card__img');
+        const preload = new Image();
+
+        preload.onload = () => {
+            if (imgEl) {
+                imgEl.src = imgSrc;
+                imgEl.classList.remove('loading');
+            }
+        };
+        /* On error: keep the placeholder gif — no broken-image icon */
+        preload.onerror = () => { /* intentional no-op */ };
+        preload.src = imgSrc;
+    }
+
+    return card;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   10. GRID RENDERER
+================================================================ */
+function renderGrid(container, list) {
+    if (!container) return;
+
+    /* Clear skeleton placeholders */
+    container.innerHTML = '';
+
+    if (!list.length) {
+        const msg = document.createElement('p');
+        msg.textContent = 'Could not load titles right now — please try again later.';
+        msg.style.cssText =
+            'color:var(--c-sub);padding:24px 0;grid-column:1/-1;font-size:.9rem;';
+        container.appendChild(msg);
+        return;
+    }
+
+    const frag = document.createDocumentFragment();
+    list.forEach((anime, i) => frag.appendChild(buildCard(anime, i)));
+    container.appendChild(frag);
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   11. HELPERS
+================================================================ */
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&#x27;');
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   12. BOOTSTRAP
+================================================================ */
+async function init() {
+    /* Auth runs in the background — does not block card rendering */
+    initAuth();
+
+    /* Fetch both grids in parallel to minimise wait time.
+       popular  → currently airing (trending this season)
+       classics → all-time highest rated                     */
+    const [popular, classics] = await Promise.all([
+        fetchAnime('/top/anime?filter=airing&limit=10'),
+        fetchAnime('/top/anime?limit=10'),
+    ]);
+
+    renderGrid(popularGrid,  popular);
+    renderGrid(classicsGrid, classics);
+}
+
+init();
