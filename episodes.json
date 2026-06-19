@@ -1,0 +1,248 @@
+{
+  "series": [
+    {
+      "id": 1,
+      "title": "Demon Slayer: Kimetsu no Yaiba",
+      "slug": "demon-slayer",
+      "year": 2019,
+      "ageRating": "TV-14",
+      "score": 8.7,
+      "description": "A young boy named Tanjiro Kamado becomes a demon slayer after his family is slaughtered and his younger sister Nezuko is turned into a demon. Joining the Demon Slayer Corps, he embarks on a perilous quest to find a cure for his sister while avenging his fallen family.",
+      "seasons": 4,
+      "status": "Ongoing",
+      "genres": ["Action", "Fantasy", "Historical"],
+      "episodeCount": 44,
+      "posterUrl": "https://picsum.photos/seed/demonslayer/300/450",
+      "episodes": [
+        {
+          "number": 1,
+          "title": "Cruelty",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Trainer Sakonji Urokodaki",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Sabito and Makomo",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Final Selection",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+          }
+        },
+        {
+          "number": 5,
+          "title": "My Own Steel",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Attack on Titan",
+      "slug": "attack-on-titan",
+      "year": 2013,
+      "ageRating": "TV-MA",
+      "score": 9.0,
+      "description": "In a world where humanity hides behind enormous walls to escape giant humanoid creatures called Titans, young Eren Yeager vows to reclaim the world after his mother is eaten. He enlists in the military and uncovers the dark secrets behind the walls and the Titans themselves.",
+      "seasons": 4,
+      "status": "Completed",
+      "genres": ["Action", "Drama", "Mystery", "Fantasy"],
+      "episodeCount": 87,
+      "posterUrl": "https://picsum.photos/seed/attackontitan/300/450",
+      "episodes": [
+        {
+          "number": 1,
+          "title": "To You, in 2000 Years",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          }
+        },
+        {
+          "number": 2,
+          "title": "That Day",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+          }
+        },
+        {
+          "number": 3,
+          "title": "A Dim Light Amid Despair",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+          }
+        },
+        {
+          "number": 4,
+          "title": "The Night of the Closing Ceremony",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+          }
+        },
+        {
+          "number": 5,
+          "title": "First Battle",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "My Hero Academia",
+      "slug": "my-hero-academia",
+      "year": 2016,
+      "ageRating": "TV-14",
+      "score": 7.9,
+      "description": "In a world where most people possess superpowers called Quirks, Izuku Midoriya is born without one yet dreams of becoming a hero. After a fateful encounter with the greatest hero All Might, Izuku inherits a legendary power and enrols in the prestigious U.A. High School.",
+      "seasons": 6,
+      "status": "Ongoing",
+      "genres": ["Action", "School", "Superpower"],
+      "episodeCount": 138,
+      "posterUrl": "https://picsum.photos/seed/myhero/300/450",
+      "episodes": [
+        {
+          "number": 1,
+          "title": "Izuku Midoriya: Origin",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          }
+        },
+        {
+          "number": 2,
+          "title": "What It Takes to Be a Hero",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Roaring Muscles",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Start Line",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+          }
+        },
+        {
+          "number": 5,
+          "title": "What I Can Do for Now",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Jujutsu Kaisen",
+      "slug": "jujutsu-kaisen",
+      "year": 2020,
+      "ageRating": "TV-14",
+      "score": 8.6,
+      "description": "Yuji Itadori is an athletic high schooler who swallows a legendary cursed object to save his classmates and becomes the host of a powerful ancient demon. Now enrolled in Tokyo Jujutsu High, he trains to become a jujutsu sorcerer and find all cursed objects before being executed.",
+      "seasons": 2,
+      "status": "Ongoing",
+      "genres": ["Action", "Supernatural", "School"],
+      "episodeCount": 48,
+      "posterUrl": "https://picsum.photos/seed/jujutsu/300/450",
+      "episodes": [
+        {
+          "number": 1,
+          "title": "Ryomen Sukuna",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          }
+        },
+        {
+          "number": 2,
+          "title": "For Myself",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Girl of Steel",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Curse Womb Must Die",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          }
+        },
+        {
+          "number": 5,
+          "title": "Curse Womb Must Die II",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+          }
+        }
+      ]
+    }
+  ]
+}
