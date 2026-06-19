@@ -98,11 +98,11 @@ function showError(msg) {
 ───────────────────────────────────────────────────────────── */
 function renderPlayer(episode) {
     const src = episode.sources[currentServer];
-    const video = $('mainPlayer');
-    if (!src || !video) return;
+    const player = $('mainPlayer');
+    if (!src || !player) return;
 
     // Fade out → swap src → fade in
-    video.classList.add('fading');
+    player.classList.add('fading');
     setTimeout(() => {
         video.src = src;
         video.load();
