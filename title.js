@@ -98,17 +98,19 @@ function showError(msg) {
 ───────────────────────────────────────────────────────────── */
 function renderPlayer(episode) {
     const src = episode.sources[currentServer];
-    const player = $('mainPlayer');
-    if (!src || !player) return;
+    const iframe = $('mainPlayer');
+    if (!src || !iframe) return;
 
-    // Fade out → swap src → fade in
-    player.classList.add('fading');
+    iframe.classList.add('fading');
+
     setTimeout(() => {
-        player.src = src;
-        player.load();
-        player.classList.remove('fading');
+        iframe.src = src; // tylko to!
+        iframe.classList.remove('fading');
     }, 180);
 }
+
+
+    // Fade out → swap src → fade in
 
 /* ─────────────────────────────────────────────────────────────
    RENDER: SERVER BUTTONS
