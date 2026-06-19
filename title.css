@@ -105,11 +105,7 @@
     align-items: start;
 }
 
-.title-col-player { grid-area: player;
-                   width: 100%;
-    height: 70vh;
-    border: none;
-    border-radius: 12px; }
+.title-col-player { grid-area: player; }
 .title-col-right  { grid-area: episodes; }
 .title-col-info   { grid-area: info; }
 
