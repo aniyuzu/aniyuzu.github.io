@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════
    AniYuzu — title.js
    Handles:
-     1. URL parsing  (/title/SLUG/?ep=N)
+     1. URL parsing  (/title/SLUG/?ep=N)j
      2. episodes.json fetch & series lookup
      3. Rendering: player · episode panel · server buttons · info
      4. Episode & server switching with history.pushState
