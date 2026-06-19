@@ -23,8 +23,8 @@
    ② Go to:  Project Settings → API
    ③ Paste your Project URL and anon/public key below.
    ─────────────────────────────────────────────────────────────── */
-const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL      = 'https://lewcitocobalwcifngko.supabase.co/rest/v1/';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxld2NpdG9jb2JhbHdjaWZuZ2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTE4OTksImV4cCI6MjA5NjkyNzg5OX0.__F6EKH6uPRTM7z0t7RvxPe1YLGFbmJWwA1KnUXiBR8';
 
 /* ─── Init Supabase client (skipped if not configured) ──────── */
 let sb = null;
