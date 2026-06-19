@@ -104,9 +104,9 @@ function renderPlayer(episode) {
     // Fade out → swap src → fade in
     player.classList.add('fading');
     setTimeout(() => {
-        video.src = src;
-        video.load();
-        video.classList.remove('fading');
+        player.src = src;
+        player.load();
+        player.classList.remove('fading');
     }, 180);
 }
 
