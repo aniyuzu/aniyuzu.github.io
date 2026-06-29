@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse anime by genre and category on AniYuzu.">
+    <title>Categories | AniYuzu</title>
+    <link rel="icon" type="image/png" href="/icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        /* ── Page hero (reused across inner pages) ── */
+        .page-hero {
+            position: relative;
+            overflow: hidden;
+            padding: 72px 24px 56px;
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .page-hero .hero__bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .page-hero__inner {
+            position: relative;
+            z-index: 1;
+            max-width: var(--max-w);
+            margin: 0 auto;
+        }
+
+        .page-hero__label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: var(--c-accent2);
+            margin-bottom: 14px;
+        }
+
+        .page-hero__label .material-symbols-rounded { font-size: 17px; }
+
+        .page-hero__title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.9rem, 5vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 14px;
+            color: var(--c-text);
+        }
+
+        .page-hero__desc {
+            font-size: 1rem;
+            color: var(--c-sub);
+            line-height: 1.7;
+            max-width: 500px;
+            margin-bottom: 28px;
+        }
+
+        /* ── Genre filter pills ── */
+        .genre-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .genre-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-decoration: none;
+            background: rgba(124, 58, 237, 0.10);
+            border: 1px solid rgba(124, 58, 237, 0.22);
+            color: var(--c-accent);
+            transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.18s, box-shadow 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .genre-pill:hover {
+            background: rgba(124, 58, 237, 0.20);
+            border-color: var(--c-accent);
+            color: var(--c-text);
+            transform: translateY(-2px);
+        }
+
+        .genre-pill.is-active {
+            background: var(--c-grad);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.32);
+        }
+
+        .genre-pill .material-symbols-rounded { font-size: 16px; }
+
+        /* ── Genre section divider ── */
+        .genre-section {
+            scroll-margin-top: calc(var(--nav-h) + 24px);
+        }
+
+        /* ── Our Library banner ── */
+        .library-banner {
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin: 0 24px 28px;
+            max-width: var(--max-w);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .library-banner .material-symbols-rounded {
+            font-size: 26px;
+            color: var(--c-accent);
+            flex-shrink: 0;
+        }
+
+        .library-banner p {
+            font-size: 0.88rem;
+            color: var(--c-sub);
+            line-height: 1.55;
+        }
+
+        .library-banner strong { color: var(--c-text); }
+
+        @media (max-width: 900px) {
+            .library-banner { margin-inline: 16px; }
+        }
+
+        @media (max-width: 700px) {
+            .page-hero { padding: 52px 16px 40px; }
+            .genre-pills { gap: 6px; }
+            .genre-pill { padding: 7px 14px; font-size: 0.78rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<header class="navbar" id="navbar">
+    <div class="navbar__inner">
+        <a href="/" class="brand" aria-label="AniYuzu — Home">
+            <img src="/logo.png" alt="" class="brand__logo" onerror="this.style.display='none'">
+            <span class="brand__name">AniYuzu</span>
+        </a>
+
+        <form class="search-bar" id="searchForm" novalidate>
+            <span class="material-symbols-rounded search-bar__icon">search</span>
+            <input type="text" id="searchInput" class="search-bar__input"
+                placeholder="Search titles..." autocomplete="off" aria-label="Search anime">
+        </form>
+
+        <div class="navbar__controls">
+            <button class="icon-btn mobile-only" id="mobileSearchBtn" aria-label="Search">
+                <span class="material-symbols-rounded">search</span>
+            </button>
+            <button class="icon-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+                <span class="material-symbols-rounded" id="menuIcon">menu</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-search" id="mobileSearch" aria-hidden="true">
+        <form class="search-bar" id="mobileSearchForm" novalidate>
+            <span class="material-symbols-rounded search-bar__icon">search</span>
+            <input type="text" id="mobileSearchInput" class="search-bar__input"
+                placeholder="Search titles..." autocomplete="off" aria-label="Search">
+        </form>
+    </div>
+</header>
+
+<!-- ══════════════════ SIDEMENU ══════════════════ -->
+<div class="backdrop" id="backdrop"></div>
+
+<nav class="sidemenu" id="sidemenu" aria-hidden="true" aria-label="Site navigation">
+    <div class="sidemenu__header">
+        <span class="sidemenu__brand">Navigation</span>
+        <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+            <span class="material-symbols-rounded">close</span>
+        </button>
+    </div>
+    <ul class="sidemenu__list">
+        <li>
+            <a href="/new" class="sidemenu__link">
+                <span class="material-symbols-rounded">fiber_new</span>
+                New &amp; Upcoming
+            </a>
+        </li>
+        <li>
+            <a href="/categories" class="sidemenu__link">
+                <span class="material-symbols-rounded">category</span>
+                Categories
+            </a>
+        </li>
+        <li>
+            <a href="/support" class="sidemenu__link">
+                <span class="material-symbols-rounded">help_outline</span>
+                Support
+            </a>
+        </li>
+        <li>
+            <a href="/history" class="sidemenu__link">
+                <span class="material-symbols-rounded">history</span>
+                History
+            </a>
+        </li>
+        <li>
+            <a href="/account" class="sidemenu__link" id="accountLink">
+                <span class="material-symbols-rounded" id="accountIcon">person</span>
+                <span id="accountLabel">Account</span>
+            </a>
+        </li>
+    </ul>
+    <div class="sidemenu__footer">
+        <button class="auth-btn" id="authBtn">Login / Register</button>
+    </div>
+</nav>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main style="padding-top: var(--nav-h);">
+
+    <!-- Page hero with genre pills -->
+    <div class="page-hero">
+        <div class="hero__bg">
+            <div class="hero__orb hero__orb--a"></div>
+            <div class="hero__orb hero__orb--b"></div>
+            <div class="hero__orb hero__orb--c"></div>
+        </div>
+        <div class="page-hero__inner">
+            <p class="page-hero__label">
+                <span class="material-symbols-rounded">category</span>
+                Browse by Genre
+            </p>
+            <h1 class="page-hero__title">
+                <em class="hero__accent">Categories</em>
+            </h1>
+            <p class="page-hero__desc">
+                Find your next favourite by genre. From high-octane action to
+                slow-burn romance — there's something for everyone.
+            </p>
+
+            <!-- Genre filter navigation pills -->
+            <nav class="genre-pills" id="genrePills" aria-label="Jump to genre">
+                <a href="#genre-action"       class="genre-pill is-active" data-genre="action">
+                    <span class="material-symbols-rounded">swords</span>Action
+                </a>
+                <a href="#genre-fantasy"      class="genre-pill" data-genre="fantasy">
+                    <span class="material-symbols-rounded">auto_awesome</span>Fantasy
+                </a>
+                <a href="#genre-romance"      class="genre-pill" data-genre="romance">
+                    <span class="material-symbols-rounded">favorite</span>Romance
+                </a>
+                <a href="#genre-comedy"       class="genre-pill" data-genre="comedy">
+                    <span class="material-symbols-rounded">sentiment_very_satisfied</span>Comedy
+                </a>
+                <a href="#genre-scifi"        class="genre-pill" data-genre="scifi">
+                    <span class="material-symbols-rounded">rocket_launch</span>Sci-Fi
+                </a>
+                <a href="#genre-supernatural" class="genre-pill" data-genre="supernatural">
+                    <span class="material-symbols-rounded">visibility</span>Supernatural
+                </a>
+                <a href="#genre-library"      class="genre-pill" data-genre="library">
+                    <span class="material-symbols-rounded">video_library</span>Our Library
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ── Action ── -->
+    <section class="anime-section genre-section" id="genre-action">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">⚔️ Genre</p>
+                <h2 class="section-h2">Action</h2>
+            </div>
+        </div>
+        <div class="grid" id="actionGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Fantasy ── -->
+    <section class="anime-section genre-section" id="genre-fantasy">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">✨ Genre</p>
+                <h2 class="section-h2">Fantasy</h2>
+            </div>
+        </div>
+        <div class="grid" id="fantasyGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Romance ── -->
+    <section class="anime-section genre-section" id="genre-romance">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">💕 Genre</p>
+                <h2 class="section-h2">Romance</h2>
+            </div>
+        </div>
+        <div class="grid" id="romanceGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Comedy ── -->
+    <section class="anime-section genre-section" id="genre-comedy">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">😄 Genre</p>
+                <h2 class="section-h2">Comedy</h2>
+            </div>
+        </div>
+        <div class="grid" id="comedyGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Sci-Fi ── -->
+    <section class="anime-section genre-section" id="genre-scifi">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">🚀 Genre</p>
+                <h2 class="section-h2">Sci-Fi</h2>
+            </div>
+        </div>
+        <div class="grid" id="scifiGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Supernatural ── -->
+    <section class="anime-section genre-section" id="genre-supernatural">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">👁 Genre</p>
+                <h2 class="section-h2">Supernatural</h2>
+            </div>
+        </div>
+        <div class="grid" id="supernaturalGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Our Library (from episodes.json — always works) ── -->
+    <section class="anime-section genre-section" id="genre-library">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">📚 AniYuzu Library</p>
+                <h2 class="section-h2">In Our Library</h2>
+            </div>
+            <a href="/" class="view-all">
+                Home <span class="material-symbols-rounded">arrow_forward</span>
+            </a>
+        </div>
+        <div class="grid" id="libraryGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__brand">
+            <img src="/logo.png" alt="" class="footer__logo" onerror="this.style.display='none'">
+            <span class="footer__name">AniYuzu</span>
+        </div>
+        <p class="footer__copy">&copy; 2025 AniYuzu &mdash; For entertainment purposes only.</p>
+        <nav class="footer__nav" aria-label="Footer links">
+            <a href="/support">Support</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/dmca">DMCA</a>
+        </nav>
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    const JIKAN = 'https://api.jikan.moe/v4';
+    const g     = id => document.getElementById(id);
+    const esc   = s  => String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+    /* ── Navbar ── */
+    (function initNav() {
+        const navbar   = g('navbar');
+        const menuBtn  = g('menuBtn');
+        const menuIcon = g('menuIcon');
+        const closeBtn = g('closeBtn');
+        const sidemenu = g('sidemenu');
+        const backdrop = g('backdrop');
+        const mSBtn    = g('mobileSearchBtn');
+        const mSearch  = g('mobileSearch');
+        const mSInput  = g('mobileSearchInput');
+
+        window.addEventListener('scroll', () =>
+            navbar?.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
+
+        const openMenu = () => {
+            sidemenu?.classList.add('open');
+            sidemenu?.setAttribute('aria-hidden','false');
+            backdrop?.classList.add('active');
+            menuBtn?.setAttribute('aria-expanded','true');
+            if (menuIcon) menuIcon.textContent = 'close';
+            document.body.style.overflow = 'hidden';
+        };
+        const closeMenu = () => {
+            sidemenu?.classList.remove('open');
+            sidemenu?.setAttribute('aria-hidden','true');
+            backdrop?.classList.remove('active');
+            menuBtn?.setAttribute('aria-expanded','false');
+            if (menuIcon) menuIcon.textContent = 'menu';
+            document.body.style.overflow = '';
+        };
+        const openMS = () => {
+            mSearch?.classList.add('open');
+            mSearch?.setAttribute('aria-hidden','false');
+            setTimeout(() => mSInput?.focus(), 60);
+        };
+        const closeMS = () => {
+            mSearch?.classList.remove('open');
+            mSearch?.setAttribute('aria-hidden','true');
+        };
+
+        menuBtn?.addEventListener('click', openMenu);
+        closeBtn?.addEventListener('click', closeMenu);
+        backdrop?.addEventListener('click', closeMenu);
+        mSBtn?.addEventListener('click', () =>
+            mSearch?.classList.contains('open') ? closeMS() : openMS());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { closeMenu(); closeMS(); }
+        });
+
+        const doSearch = q => {
+            if (q?.trim()) window.location.href = `/search?title=${encodeURIComponent(q.trim())}`;
+        };
+        g('searchForm')?.addEventListener('submit', e => {
+            e.preventDefault(); doSearch(g('searchInput')?.value);
+        });
+        g('mobileSearchForm')?.addEventListener('submit', e => {
+            e.preventDefault(); doSearch(g('mobileSearchInput')?.value);
+        });
+    }());
+
+    /* ── Genre pill active tracking ── */
+    (function initPills() {
+        const pills = document.querySelectorAll('.genre-pill');
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                pills.forEach(p => p.classList.remove('is-active'));
+                pill.classList.add('is-active');
+            });
+        });
+    }());
+
+    /* ── Fetch from Jikan API ── */
+    async function fetchAnime(path) {
+        try {
+            const r = await fetch(JIKAN + path);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const j = await r.json();
+            return Array.isArray(j.data) ? j.data : [];
+        } catch (err) {
+            console.warn('[AniYuzu] categories fetch:', err.message);
+            return [];
+        }
+    }
+
+    /* ── Build card from Jikan anime object ── */
+    function buildJikanCard(anime, idx) {
+        const title  = anime.title || 'Unknown';
+        const slug   = encodeURIComponent(
+            (anime.title_english || title)
+                .toLowerCase().trim()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+        );
+        const href   = `/title/${slug}/?ep=1`;
+        const imgSrc = anime.images?.jpg?.large_image_url || '';
+        const score  = typeof anime.score === 'number' ? anime.score.toFixed(1) : null;
+        const eps    = anime.episodes;
+        const genre  = anime.genres?.[0]?.name || '';
+        const year   = anime.year || anime.aired?.prop?.from?.year || '';
+
+        let badge = '';
+        if (anime.rank === 1)      badge = '<span class="card__badge card__badge--top">Top #1</span>';
+        else if (anime.rank <= 3)  badge = `<span class="card__badge card__badge--top">Top #${anime.rank}</span>`;
+        else if (anime.airing)     badge = '<span class="card__badge card__badge--hot">Airing</span>';
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.animationDelay = `${idx * 0.055}s`;
+        card.style.cursor = 'pointer';
+
+        card.innerHTML = `
+            <div class="card__poster">
+                <img class="card__img loading" src="/load_icon.gif" alt="${esc(title)}" loading="lazy">
+                ${badge}
+                <div class="card__overlay">
+                    ${score ? `<span class="card__score">⭐ ${score}</span>` : '<span></span>'}
+                    ${eps   ? `<span class="card__eps">${eps} eps</span>` : ''}
+                </div>
+            </div>
+            <div class="card__body">
+                <a href="${href}" class="card__title">${esc(title)}</a>
+                <div class="card__meta">
+                    ${genre ? `<span class="card__genre">${esc(genre)}</span>` : ''}
+                    ${year  ? `<span class="card__year">${year}</span>` : ''}
+                </div>
+            </div>`;
+
+        if (imgSrc) {
+            const img = card.querySelector('.card__img');
+            const pl  = new Image();
+            pl.onload  = () => { img.src = imgSrc; img.classList.remove('loading'); };
+            pl.onerror = () => {};
+            pl.src     = imgSrc;
+        }
+
+        card.addEventListener('click', e => {
+            if (e.target.tagName !== 'A') window.location.href = href;
+        });
+
+        return card;
+    }
+
+    /* ── Build card from episodes.json series object ── */
+    function buildLibraryCard(series, idx) {
+        const href  = `/title/${encodeURIComponent(series.slug)}/?ep=1`;
+        const genre = series.genres?.[0] || '';
+        const eps   = series.episodeCount || series.episodes?.length;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.animationDelay = `${idx * 0.055}s`;
+        card.style.cursor = 'pointer';
+
+        card.innerHTML = `
+            <div class="card__poster">
+                <img class="card__img loading" src="/load_icon.gif" alt="${esc(series.title)}" loading="lazy">
+                ${series.ageRating ? `<span class="card__badge card__badge--new">${esc(series.ageRating)}</span>` : ''}
+                <div class="card__overlay">
+                    ${series.score ? `<span class="card__score">⭐ ${series.score}</span>` : '<span></span>'}
+                    ${eps ? `<span class="card__eps">${eps} eps</span>` : ''}
+                </div>
+            </div>
+            <div class="card__body">
+                <a href="${href}" class="card__title">${esc(series.title)}</a>
+                <div class="card__meta">
+                    ${genre       ? `<span class="card__genre">${esc(genre)}</span>` : ''}
+                    ${series.year ? `<span class="card__year">${series.year}</span>` : ''}
+                </div>
+            </div>`;
+
+        if (series.posterUrl) {
+            const img = card.querySelector('.card__img');
+            const pl  = new Image();
+            pl.onload  = () => { img.src = series.posterUrl; img.classList.remove('loading'); };
+            pl.onerror = () => {};
+            pl.src     = series.posterUrl;
+        }
+
+        card.addEventListener('click', e => {
+            if (e.target.tagName !== 'A') window.location.href = href;
+        });
+
+        return card;
+    }
+
+    /* ── Render Jikan list into a grid ── */
+    function renderJikanGrid(gridId, list) {
+        const el = g(gridId);
+        if (!el) return;
+        el.innerHTML = '';
+
+        if (!list.length) {
+            el.innerHTML = '<p style="color:var(--c-sub);padding:20px 0;grid-column:1/-1;font-size:.9rem;">Could not load titles right now.</p>';
+            return;
+        }
+
+        const frag = document.createDocumentFragment();
+        list.forEach((a, i) => frag.appendChild(buildJikanCard(a, i)));
+        el.appendChild(frag);
+    }
+
+    /* ── Render library list into a grid ── */
+    function renderLibraryGrid(gridId, list) {
+        const el = g(gridId);
+        if (!el) return;
+        el.innerHTML = '';
+
+        if (!list.length) {
+            el.innerHTML = '<p style="color:var(--c-sub);padding:20px 0;grid-column:1/-1;font-size:.9rem;">Library is empty.</p>';
+            return;
+        }
+
+        const frag = document.createDocumentFragment();
+        list.forEach((s, i) => frag.appendChild(buildLibraryCard(s, i)));
+        el.appendChild(frag);
+    }
+
+    /* ── Main: fetch all genre sections in parallel ── */
+    async function main() {
+        /* Genre IDs: Action=1, Fantasy=10, Romance=22, Comedy=4, Sci-Fi=24, Supernatural=37 */
+        const genreQuery = id =>
+            `/anime?genres=${id}&order_by=score&sort=desc&limit=5`;
+
+        const [
+            actionData,
+            fantasyData,
+            romanceData,
+            comedyData,
+            scifiData,
+            supernaturalData,
+            episodesData,
+        ] = await Promise.allSettled([
+            fetchAnime(genreQuery(1)),
+            fetchAnime(genreQuery(10)),
+            fetchAnime(genreQuery(22)),
+            fetchAnime(genreQuery(4)),
+            fetchAnime(genreQuery(24)),
+            fetchAnime(genreQuery(37)),
+            fetch('/episodes.json').then(r => r.ok ? r.json() : { series: [] }),
+        ]);
+
+        const resolve = result =>
+            result.status === 'fulfilled' ? result.value : [];
+
+        renderJikanGrid('actionGrid',       resolve(actionData));
+        renderJikanGrid('fantasyGrid',      resolve(fantasyData));
+        renderJikanGrid('romanceGrid',      resolve(romanceData));
+        renderJikanGrid('comedyGrid',       resolve(comedyData));
+        renderJikanGrid('scifiGrid',        resolve(scifiData));
+        renderJikanGrid('supernaturalGrid', resolve(supernaturalData));
+
+        const library = episodesData.status === 'fulfilled'
+            ? (episodesData.value?.series || [])
+            : [];
+        renderLibraryGrid('libraryGrid', library);
+    }
+
+    main();
+}());
+</script>
+</body>
+</html>
