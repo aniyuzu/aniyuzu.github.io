@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="New and upcoming anime streaming on AniYuzu — fresh episodes every day.">
+    <title>New &amp; Upcoming | AniYuzu</title>
+    <link rel="icon" type="image/png" href="/icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        /* ── Page-specific: compact inner-page hero ── */
+        .page-hero {
+            position: relative;
+            overflow: hidden;
+            padding: 72px 24px 60px;
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .page-hero .hero__bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .page-hero__inner {
+            position: relative;
+            z-index: 1;
+            max-width: var(--max-w);
+            margin: 0 auto;
+        }
+
+        .page-hero__label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: var(--c-accent2);
+            margin-bottom: 14px;
+        }
+
+        .page-hero__label .material-symbols-rounded { font-size: 17px; }
+
+        .page-hero__title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.9rem, 5vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 14px;
+            color: var(--c-text);
+        }
+
+        .page-hero__desc {
+            font-size: 1rem;
+            color: var(--c-sub);
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        /* ── Countdown badge on upcoming cards ── */
+        .card__badge--upcoming {
+            background: linear-gradient(135deg, #7C3AED, #E040FB);
+            color: #fff;
+            border-radius: 6px;
+            padding: 3px 9px;
+            font-size: 0.64rem;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 700px) {
+            .page-hero { padding: 52px 16px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<header class="navbar" id="navbar">
+    <div class="navbar__inner">
+        <a href="/" class="brand" aria-label="AniYuzu — Home">
+            <img src="/logo.png" alt="" class="brand__logo" onerror="this.style.display='none'">
+            <span class="brand__name">AniYuzu</span>
+        </a>
+
+        <form class="search-bar" id="searchForm" novalidate>
+            <span class="material-symbols-rounded search-bar__icon">search</span>
+            <input type="text" id="searchInput" class="search-bar__input"
+                placeholder="Search titles..." autocomplete="off" aria-label="Search anime">
+        </form>
+
+        <div class="navbar__controls">
+            <button class="icon-btn mobile-only" id="mobileSearchBtn" aria-label="Search">
+                <span class="material-symbols-rounded">search</span>
+            </button>
+            <button class="icon-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+                <span class="material-symbols-rounded" id="menuIcon">menu</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-search" id="mobileSearch" aria-hidden="true">
+        <form class="search-bar" id="mobileSearchForm" novalidate>
+            <span class="material-symbols-rounded search-bar__icon">search</span>
+            <input type="text" id="mobileSearchInput" class="search-bar__input"
+                placeholder="Search titles..." autocomplete="off" aria-label="Search">
+        </form>
+    </div>
+</header>
+
+<!-- ══════════════════ SIDEMENU ══════════════════ -->
+<div class="backdrop" id="backdrop"></div>
+
+<nav class="sidemenu" id="sidemenu" aria-hidden="true" aria-label="Site navigation">
+    <div class="sidemenu__header">
+        <span class="sidemenu__brand">Navigation</span>
+        <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+            <span class="material-symbols-rounded">close</span>
+        </button>
+    </div>
+    <ul class="sidemenu__list">
+        <li>
+            <a href="/new" class="sidemenu__link">
+                <span class="material-symbols-rounded">fiber_new</span>
+                New &amp; Upcoming
+            </a>
+        </li>
+        <li>
+            <a href="/categories" class="sidemenu__link">
+                <span class="material-symbols-rounded">category</span>
+                Categories
+            </a>
+        </li>
+        <li>
+            <a href="/support" class="sidemenu__link">
+                <span class="material-symbols-rounded">help_outline</span>
+                Support
+            </a>
+        </li>
+        <li>
+            <a href="/history" class="sidemenu__link">
+                <span class="material-symbols-rounded">history</span>
+                History
+            </a>
+        </li>
+        <li>
+            <a href="/account" class="sidemenu__link" id="accountLink">
+                <span class="material-symbols-rounded" id="accountIcon">person</span>
+                <span id="accountLabel">Account</span>
+            </a>
+        </li>
+    </ul>
+    <div class="sidemenu__footer">
+        <button class="auth-btn" id="authBtn">Login / Register</button>
+    </div>
+</nav>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main style="padding-top: var(--nav-h);">
+
+    <!-- Page hero -->
+    <div class="page-hero">
+        <div class="hero__bg">
+            <div class="hero__orb hero__orb--a"></div>
+            <div class="hero__orb hero__orb--b"></div>
+            <div class="hero__orb hero__orb--c"></div>
+        </div>
+        <div class="page-hero__inner">
+            <p class="page-hero__label">
+                <span class="material-symbols-rounded">schedule</span>
+                Updated Every Day
+            </p>
+            <h1 class="page-hero__title">
+                New &amp; <em class="hero__accent">Upcoming</em>
+            </h1>
+            <p class="page-hero__desc">
+                Catch the latest episodes airing this season and get a first look at titles
+                landing on AniYuzu soon.
+            </p>
+        </div>
+    </div>
+
+    <!-- ── Section 1: New Titles (airing now) ── -->
+    <section class="anime-section">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">🔥 Streaming Now</p>
+                <h2 class="section-h2">New Titles</h2>
+            </div>
+            <a href="/categories" class="view-all">
+                All Genres <span class="material-symbols-rounded">arrow_forward</span>
+            </a>
+        </div>
+        <div class="grid" id="airingGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Section 2: Upcoming Titles ── -->
+    <section class="anime-section">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">⏰ Coming Soon</p>
+                <h2 class="section-h2">Upcoming Titles</h2>
+            </div>
+        </div>
+        <div class="grid" id="upcomingGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+    <!-- ── Section 3: Top Rated (bonus context) ── -->
+    <section class="anime-section">
+        <div class="anime-section__head">
+            <div>
+                <p class="eyebrow">⭐ Fan Favourites</p>
+                <h2 class="section-h2">Trending on AniYuzu</h2>
+            </div>
+            <a href="/categories" class="view-all">
+                Browse All <span class="material-symbols-rounded">arrow_forward</span>
+            </a>
+        </div>
+        <div class="grid" id="trendingGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__brand">
+            <img src="/logo.png" alt="" class="footer__logo" onerror="this.style.display='none'">
+            <span class="footer__name">AniYuzu</span>
+        </div>
+        <p class="footer__copy">&copy; 2025 AniYuzu &mdash; For entertainment purposes only.</p>
+        <nav class="footer__nav" aria-label="Footer links">
+            <a href="/support">Support</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/dmca">DMCA</a>
+        </nav>
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    const JIKAN = 'https://api.jikan.moe/v4';
+
+    /* ── Helpers ── */
+    const g   = id => document.getElementById(id);
+    const esc = s  => String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+    /* ── Navbar ── */
+    (function initNav() {
+        const navbar   = g('navbar');
+        const menuBtn  = g('menuBtn');
+        const menuIcon = g('menuIcon');
+        const closeBtn = g('closeBtn');
+        const sidemenu = g('sidemenu');
+        const backdrop = g('backdrop');
+        const mSBtn    = g('mobileSearchBtn');
+        const mSearch  = g('mobileSearch');
+        const mSInput  = g('mobileSearchInput');
+
+        window.addEventListener('scroll', () =>
+            navbar?.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
+
+        const openMenu = () => {
+            sidemenu?.classList.add('open');
+            sidemenu?.setAttribute('aria-hidden', 'false');
+            backdrop?.classList.add('active');
+            menuBtn?.setAttribute('aria-expanded', 'true');
+            if (menuIcon) menuIcon.textContent = 'close';
+            document.body.style.overflow = 'hidden';
+        };
+        const closeMenu = () => {
+            sidemenu?.classList.remove('open');
+            sidemenu?.setAttribute('aria-hidden', 'true');
+            backdrop?.classList.remove('active');
+            menuBtn?.setAttribute('aria-expanded', 'false');
+            if (menuIcon) menuIcon.textContent = 'menu';
+            document.body.style.overflow = '';
+        };
+        const openMS = () => {
+            mSearch?.classList.add('open');
+            mSearch?.setAttribute('aria-hidden', 'false');
+            setTimeout(() => mSInput?.focus(), 60);
+        };
+        const closeMS = () => {
+            mSearch?.classList.remove('open');
+            mSearch?.setAttribute('aria-hidden', 'true');
+        };
+
+        menuBtn?.addEventListener('click', openMenu);
+        closeBtn?.addEventListener('click', closeMenu);
+        backdrop?.addEventListener('click', closeMenu);
+        mSBtn?.addEventListener('click', () =>
+            mSearch?.classList.contains('open') ? closeMS() : openMS());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { closeMenu(); closeMS(); }
+        });
+
+        const doSearch = q => {
+            if (q?.trim()) window.location.href = `/search?title=${encodeURIComponent(q.trim())}`;
+        };
+        g('searchForm')?.addEventListener('submit', e => {
+            e.preventDefault(); doSearch(g('searchInput')?.value);
+        });
+        g('mobileSearchForm')?.addEventListener('submit', e => {
+            e.preventDefault(); doSearch(g('mobileSearchInput')?.value);
+        });
+    }());
+
+    /* ── Fetch anime list from Jikan ── */
+    async function fetchAnime(path) {
+        try {
+            const r = await fetch(JIKAN + path);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const j = await r.json();
+            return Array.isArray(j.data) ? j.data : [];
+        } catch (err) {
+            console.warn('[AniYuzu] new.html fetch:', err.message);
+            return [];
+        }
+    }
+
+    /* ── Build card from Jikan anime object ── */
+    function buildCard(anime, idx, isUpcoming) {
+        const title  = anime.title || 'Unknown';
+        const slug   = encodeURIComponent(
+            (anime.title_english || title)
+                .toLowerCase().trim()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+        );
+        const href   = `/title/${slug}/?ep=1`;
+        const imgSrc = anime.images?.jpg?.large_image_url || '';
+        const score  = typeof anime.score === 'number' ? anime.score.toFixed(1) : null;
+        const eps    = anime.episodes;
+        const genre  = anime.genres?.[0]?.name || '';
+        const year   = anime.year || anime.aired?.prop?.from?.year || '';
+
+        let badge = '';
+        if (isUpcoming)           badge = '<span class="card__badge card__badge--upcoming">Upcoming</span>';
+        else if (anime.airing)    badge = '<span class="card__badge card__badge--hot">Airing</span>';
+        else if (anime.rank === 1) badge = '<span class="card__badge card__badge--top">Top #1</span>';
+        else if (anime.rank <= 3)  badge = `<span class="card__badge card__badge--top">Top #${anime.rank}</span>`;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.animationDelay = `${idx * 0.055}s`;
+        card.style.cursor = 'pointer';
+
+        card.innerHTML = `
+            <div class="card__poster">
+                <img class="card__img loading" src="/load_icon.gif" alt="${esc(title)}" loading="lazy">
+                ${badge}
+                <div class="card__overlay">
+                    ${score ? `<span class="card__score">⭐ ${score}</span>` : '<span></span>'}
+                    ${eps   ? `<span class="card__eps">${eps} eps</span>` : ''}
+                </div>
+            </div>
+            <div class="card__body">
+                <a href="${href}" class="card__title">${esc(title)}</a>
+                <div class="card__meta">
+                    ${genre ? `<span class="card__genre">${esc(genre)}</span>` : ''}
+                    ${year  ? `<span class="card__year">${year}</span>` : ''}
+                </div>
+            </div>`;
+
+        if (imgSrc) {
+            const img = card.querySelector('.card__img');
+            const pl  = new Image();
+            pl.onload  = () => { img.src = imgSrc; img.classList.remove('loading'); };
+            pl.onerror = () => {};
+            pl.src     = imgSrc;
+        }
+
+        card.addEventListener('click', e => {
+            if (e.target.tagName !== 'A') window.location.href = href;
+        });
+
+        return card;
+    }
+
+    /* ── Render list into grid element ── */
+    function renderGrid(gridId, list, isUpcoming) {
+        const el = g(gridId);
+        if (!el) return;
+        el.innerHTML = '';
+
+        if (!list.length) {
+            el.innerHTML = '<p style="color:var(--c-sub);padding:20px 0;grid-column:1/-1;font-size:.9rem;">Could not load titles right now. Please try again later.</p>';
+            return;
+        }
+
+        const frag = document.createDocumentFragment();
+        list.forEach((a, i) => frag.appendChild(buildCard(a, i, isUpcoming)));
+        el.appendChild(frag);
+    }
+
+    /* ── Main ── */
+    async function main() {
+        const [airing, upcoming, trending] = await Promise.all([
+            fetchAnime('/top/anime?filter=airing&limit=10'),
+            fetchAnime('/top/anime?filter=upcoming&limit=10'),
+            fetchAnime('/top/anime?limit=10'),
+        ]);
+
+        renderGrid('airingGrid',   airing,   false);
+        renderGrid('upcomingGrid', upcoming, true);
+        renderGrid('trendingGrid', trending, false);
+    }
+
+    main();
+}());
+</script>
+</body>
+</html>
