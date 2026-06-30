@@ -309,6 +309,67 @@
     },
     {
       "id": 5,
+      "title": "Sousou no Frieren",
+      "slug": "frieren-beyond-journeys-end",
+      "year": 2023,
+      "ageRating": "TV-14",
+      "score": 9.3,
+      "description": "During their decade-long quest to defeat the Demon King, the members of the hero's party—Himmel himself, the priest Heiter, the dwarf warrior Eisen, and the elven mage Frieren—forge bonds through adventures and battles, creating unforgettable precious memories for most of them. However, the time that Frieren spends with her comrades is equivalent to merely a fraction of her life, which has lasted over a thousand years. When the party disbands after their victory, Frieren casually returns to her "usual" routine of collecting spells across the continent. Due to her different sense of time, she seemingly holds no strong feelings toward the experiences she went through. As the years pass, Frieren gradually realizes how her days in the hero's party truly impacted her. Witnessing the deaths of two of her former companions, Frieren begins to regret having taken their presence for granted; she vows to better understand humans and create real personal connections. Although the story of that once memorable journey has long ended, a new tale is about to begin.",
+      "seasons": 2,
+      "status": "Ongoing",
+      "genres": ["Adventure", "Drama", "Fantasy"],
+      "episodeCount": 38,
+      "posterUrl": "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "title": "Izuku Midoriya: Origin",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          }
+        },
+        {
+          "number": 2,
+          "title": "What It Takes to Be a Hero",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Roaring Muscles",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Start Line",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+          }
+        },
+        {
+          "number": 5,
+          "title": "What I Can Do for Now",
+          "sources": {
+            "server1": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "server2": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "server3": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
       "title": "Jujutsu Kaisen",
       "slug": "jujutsu-kaisen",
       "year": 2020,
